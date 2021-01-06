@@ -1,0 +1,8 @@
+# Ignore these directories
+.vs/
+bin/
+.git/
+native_console/ext/
+# Files
+**.vcxproj**
+*.sln
