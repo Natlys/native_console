@@ -7,15 +7,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": ".gitignore",
-			"settings":
-			{
-				"buffer_size": 89,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -57,15 +48,25 @@
 	],
 	"file_history":
 	[
+		"/D/dev/native_world/nw_engine/src_cpp/nw_decl.hpp",
+		"/D/dev/native_world/nw_engine/src_cpp/sys/nw_time_sys.cpp",
+		"/D/dev/native_world/nw_engine/src_cpp/sys/nw_ev_sys.h",
+		"/D/dev/native_console/.git/TAG_EDITMSG",
+		"/D/dev/native_console/premake5.lua",
+		"/D/dev/native_console/README.md",
+		"/D/dev/native_console/.git/COMMIT_EDITMSG",
+		"/D/dev/native_console/.gitignore",
+		"/D/dev/native_console/cout_api",
+		"/E/Учёба/git",
+		"/D/dev/native_world/.git/TAG_EDITMSG",
+		"/E/Учёба/coding/lua_coder",
+		"/D/dev/native_world/premake5.lua",
 		"/D/dev/native_world/.gitignore",
 		"/D/dev/native_world/nw_engine/src_glsl/batch_3d.glsl",
-		"/E/Учёба/coding/lua_coder",
 		"/D/dev/native_world/nw_engine/src_glsl/batch_2d.glsl",
 		"/D/dev/native_console/nc_engine/ext/lua_jit/Makefile",
-		"/D/dev/native_console/premake5.lua",
 		"/D/dev/native_console/nc_engine/ext/lua_jit_2_10/premake5.lua",
 		"/D/dev/native_console/nc_engine/ext/lua_jit_2_10/src/lauxlib.h",
-		"/D/dev/native_world/premake5.lua",
 		"/D/dev/native_world/nw_engine/src_cpp/gl/vision/nw_gmaterial.cpp",
 		"/D/dev/native_world/scripts/gen_project_premake5.bat",
 		"/D/dev/native_console/ext/lua_lib/premake5.lua",
@@ -180,37 +181,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": ".gitignore",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 89,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								62,
-								62
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Git Formats/Git Ignore.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		},
 		{
@@ -252,7 +224,7 @@
 		"rows":
 		[
 			0.0,
-			0.713949826355,
+			0.644896767203,
 			1.0
 		]
 	},

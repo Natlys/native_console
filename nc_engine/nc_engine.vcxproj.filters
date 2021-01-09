@@ -57,66 +57,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src_cpp\core\graphics_decl.hpp">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\core\lua_decl.hpp">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\core\nc_adata_res.h">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\core\nc_asingleton.h">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\core\nc_decl.hpp">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\core\nc_def.hpp">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\core\nc_engine.h">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\core\nc_engine_state.h">
-      <Filter>src_cpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\graphics\control\nc_drawer.h">
-      <Filter>src_cpp\graphics\control</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\graphics\gcontext\nc_cwindow.h">
-      <Filter>src_cpp\graphics\gcontext</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\graphics\nc_gstructs.h">
-      <Filter>src_cpp\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\graphics\nc_gtypes.h">
-      <Filter>src_cpp\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\library\nc_aevent.h">
-      <Filter>src_cpp\library</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\library\nc_algorithm.h">
-      <Filter>src_cpp\library</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\library\nc_container.h">
-      <Filter>src_cpp\library</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\library\nc_memory.h">
-      <Filter>src_cpp\library</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\library\nc_number.h">
-      <Filter>src_cpp\library</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\library\nc_string.h">
-      <Filter>src_cpp\library</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\library\nc_time.h">
-      <Filter>src_cpp\library</Filter>
-    </ClInclude>
-    <ClInclude Include="src_cpp\math\nc_vec.h">
-      <Filter>src_cpp\math</Filter>
-    </ClInclude>
     <ClInclude Include="src_cpp\native_console.hpp">
       <Filter>src_cpp</Filter>
     </ClInclude>
@@ -126,58 +66,28 @@
     <ClInclude Include="src_cpp\nc_pch.hpp">
       <Filter>src_cpp</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\systems\nc_ev_sys.h">
-      <Filter>src_cpp\systems</Filter>
+    <ClInclude Include="src_cpp\nc_def.hpp">
+      <Filter>src_cpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\systems\nc_io_sys.h">
-      <Filter>src_cpp\systems</Filter>
+    <ClInclude Include="src_cpp\nc_event.h">
+      <Filter>src_cpp\library</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\systems\nc_log_sys.h">
-      <Filter>src_cpp\systems</Filter>
+    <ClInclude Include="src_cpp\nc_vector.h">
+      <Filter>src_cpp\math</Filter>
     </ClInclude>
-    <ClInclude Include="src_cpp\systems\nc_time_sys.h">
-      <Filter>src_cpp\systems</Filter>
+    <ClInclude Include="src_cpp\nc_structs.h">
+      <Filter>src_cpp\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src_cpp\nc_console_engine.h">
+      <Filter>src_cpp\graphics\gcontext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src_cpp\core\nc_adata_res.cpp">
-      <Filter>src_cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\core\nc_engine.cpp">
-      <Filter>src_cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\core\nc_engine_state.cpp">
-      <Filter>src_cpp\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\graphics\control\nc_drawer.cpp">
-      <Filter>src_cpp\graphics\control</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\graphics\gcontext\nc_cwindow.cpp">
-      <Filter>src_cpp\graphics\gcontext</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\graphics\nc_gstructs.cpp">
-      <Filter>src_cpp\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\graphics\nc_gtypes.cpp">
-      <Filter>src_cpp\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\library\nc_time.cpp">
-      <Filter>src_cpp\library</Filter>
-    </ClCompile>
     <ClCompile Include="src_cpp\nc_pch.cpp">
       <Filter>src_cpp</Filter>
     </ClCompile>
-    <ClCompile Include="src_cpp\systems\nc_ev_sys.cpp">
-      <Filter>src_cpp\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\systems\nc_io_sys.cpp">
-      <Filter>src_cpp\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\systems\nc_log_sys.cpp">
-      <Filter>src_cpp\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src_cpp\systems\nc_time_sys.cpp">
-      <Filter>src_cpp\systems</Filter>
+    <ClCompile Include="src_cpp\nc_console_engine.cpp">
+      <Filter>src_cpp\graphics\gcontext</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

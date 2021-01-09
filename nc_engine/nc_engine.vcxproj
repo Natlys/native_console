@@ -9,10 +9,6 @@
       <Configuration>release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="dist|x64">
-      <Configuration>dist</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EBCE80E1-5739-3558-A077-E6FD0C2113AD}</ProjectGuid>
@@ -34,12 +30,6 @@
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dist|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -47,9 +37,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='dist|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -65,12 +52,6 @@
     <TargetName>nc_engine</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dist|x64'">
-    <OutDir>..\bin\dist-windows-x86_64\nc_engine\</OutDir>
-    <IntDir>..\bin\int\dist-windows-x86_64\nc_engine\</IntDir>
-    <TargetName>nc_engine</TargetName>
-    <TargetExt>.lib</TargetExt>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -80,7 +61,7 @@
       <AdditionalIncludeDirectories>src_cpp;ext\lua_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalOptions>/mdd %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -103,7 +84,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <AdditionalOptions>/md %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -115,68 +96,21 @@
       <AdditionalLibraryDirectories>ext;ext\lua_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='dist|x64'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>nc_pch.hpp</PrecompiledHeaderFile>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NC_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src_cpp;ext\lua_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Disabled</Optimization>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-    </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>ext;ext\lua_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
-  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src_cpp\core\graphics_decl.hpp" />
-    <ClInclude Include="src_cpp\core\lua_decl.hpp" />
-    <ClInclude Include="src_cpp\core\nc_adata_res.h" />
-    <ClInclude Include="src_cpp\core\nc_asingleton.h" />
-    <ClInclude Include="src_cpp\core\nc_decl.hpp" />
-    <ClInclude Include="src_cpp\core\nc_def.hpp" />
-    <ClInclude Include="src_cpp\core\nc_engine.h" />
-    <ClInclude Include="src_cpp\core\nc_engine_state.h" />
-    <ClInclude Include="src_cpp\graphics\control\nc_drawer.h" />
-    <ClInclude Include="src_cpp\graphics\gcontext\nc_cwindow.h" />
-    <ClInclude Include="src_cpp\graphics\nc_gstructs.h" />
-    <ClInclude Include="src_cpp\graphics\nc_gtypes.h" />
-    <ClInclude Include="src_cpp\library\nc_aevent.h" />
-    <ClInclude Include="src_cpp\library\nc_algorithm.h" />
-    <ClInclude Include="src_cpp\library\nc_container.h" />
-    <ClInclude Include="src_cpp\library\nc_memory.h" />
-    <ClInclude Include="src_cpp\library\nc_number.h" />
-    <ClInclude Include="src_cpp\library\nc_string.h" />
-    <ClInclude Include="src_cpp\library\nc_time.h" />
-    <ClInclude Include="src_cpp\math\nc_vec.h" />
+    <ClInclude Include="src_cpp\nc_def.hpp" />
+    <ClInclude Include="src_cpp\nc_console_engine.h" />
+    <ClInclude Include="src_cpp\nc_structs.h" />
+    <ClInclude Include="src_cpp\nc_event.h" />
+    <ClInclude Include="src_cpp\nc_vector.h" />
     <ClInclude Include="src_cpp\native_console.hpp" />
     <ClInclude Include="src_cpp\nc_core.hpp" />
     <ClInclude Include="src_cpp\nc_pch.hpp" />
-    <ClInclude Include="src_cpp\systems\nc_ev_sys.h" />
-    <ClInclude Include="src_cpp\systems\nc_io_sys.h" />
-    <ClInclude Include="src_cpp\systems\nc_log_sys.h" />
-    <ClInclude Include="src_cpp\systems\nc_time_sys.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src_cpp\core\nc_adata_res.cpp" />
-    <ClCompile Include="src_cpp\core\nc_engine.cpp" />
-    <ClCompile Include="src_cpp\core\nc_engine_state.cpp" />
-    <ClCompile Include="src_cpp\graphics\control\nc_drawer.cpp" />
-    <ClCompile Include="src_cpp\graphics\gcontext\nc_cwindow.cpp" />
-    <ClCompile Include="src_cpp\graphics\nc_gstructs.cpp" />
-    <ClCompile Include="src_cpp\graphics\nc_gtypes.cpp" />
-    <ClCompile Include="src_cpp\library\nc_time.cpp" />
+    <ClCompile Include="src_cpp\nc_console_engine.cpp" />
     <ClCompile Include="src_cpp\nc_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src_cpp\systems\nc_ev_sys.cpp" />
-    <ClCompile Include="src_cpp\systems\nc_io_sys.cpp" />
-    <ClCompile Include="src_cpp\systems\nc_log_sys.cpp" />
-    <ClCompile Include="src_cpp\systems\nc_time_sys.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ext\lua_jit\dynasm\dasm_arm.lua" />

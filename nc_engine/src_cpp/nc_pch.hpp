@@ -78,11 +78,4 @@
 #endif
 // --</platform>--
 
-// --<nc_lib>--
-#include <library/nc_string.h>
-#include <library/nc_container.h>
-#include <library/nc_algorithm.h>
-#include <library/nc_memory.h>
-// --</nc_lib>--
-
 #endif // NC_PCH_H

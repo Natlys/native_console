@@ -130,11 +130,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src_cpp\core\ncw_engine_states.h" />
     <ClInclude Include="src_cpp\ncw_pch.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src_cpp\core\ncw_engine_states.cpp" />
     <ClCompile Include="src_cpp\main.cpp" />
     <ClCompile Include="src_cpp\ncw_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

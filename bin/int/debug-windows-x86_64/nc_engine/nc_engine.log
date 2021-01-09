@@ -1,19 +1,7 @@
-﻿  nc_engine_state.cpp
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(50,55): warning C4552: '+': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(50,73): warning C4552: '+': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(50,91): warning C4552: '+': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(50,109): warning C4552: '+': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(51,55): warning C4552: '-': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(51,73): warning C4552: '-': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(51,91): warning C4552: '-': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(51,109): warning C4552: '-': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(52,55): warning C4552: '*': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(52,73): warning C4552: '*': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(52,91): warning C4552: '*': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(52,109): warning C4552: '*': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(53,55): warning C4552: '/': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(53,73): warning C4552: '/': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(53,91): warning C4552: '/': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\graphics\nc_gstructs.h(53,109): warning C4552: '/': result of expression not used
-D:\dev\native_console\nc_engine\src_cpp\core\nc_engine_state.cpp(86,4): warning C4060: switch statement contains no 'case' or 'default' labels
+﻿  nc_console_engine.cpp
+D:\dev\native_console\nc_engine\src_cpp\nc_console_engine.cpp(117,54): warning C4244: '=': conversion from '_Rep' to 'double', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
   nc_engine.vcxproj -> D:\dev\native_console\bin\debug-windows-x86_64\nc_engine\nc_engine.lib

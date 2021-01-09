@@ -3,8 +3,7 @@ workspace "native_console"
 	configurations
 	{
 		"debug",
-		"release",
-		"dist"
+		"release"
 	}
 --compile and build results
 dir_out = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/"
@@ -67,11 +66,11 @@ project "nc_world"
 		}
 	filter "configurations:debug"
 		symbols "on"
-		buildoptions "/mdd"
+		buildoptions "/MDd"
 		defines "NC_DEBUG"
 	filter "configurations:release"
 		optimize "on"
-		buildoptions "/md"
+		buildoptions "/MD"
 		defines "NC_RELEASE"
 --editor_project--
 
@@ -128,10 +127,10 @@ project "nc_engine"
 		}
 	filter "configurations:debug"
 		symbols "on"
-		buildoptions "/mdd"
+		buildoptions "/MDd"
 		defines "NC_DEBUG"
 	filter "configurations:release"
 		optimize "on"
-		buildoptions "/md"
+		buildoptions "/MD"
 		defines "NC_RELEASE"
 --engine_project--

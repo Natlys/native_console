@@ -6,15 +6,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src_cpp\core\ncw_engine_states.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="src_cpp\ncw_pch.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src_cpp\core\ncw_engine_states.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="src_cpp\main.cpp" />
     <ClCompile Include="src_cpp\ncw_pch.cpp" />
   </ItemGroup>
