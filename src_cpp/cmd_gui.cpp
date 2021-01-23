@@ -7,6 +7,7 @@ CMD::IdStack CMD::CWidget::s_IdStack = CMD::IdStack();
 
 namespace CMD
 {
+<<<<<<< HEAD
 	CWidget::CWidget(const char* strName) : m_unId(0), m_strName(strName) {
 		m_unId = s_IdStack.GetFreeId();
 		m_strName = m_strName + "_" + std::to_string(m_unId);
@@ -111,5 +112,20 @@ namespace CMD
 		if (m_CurrItem == m_Items.end()) { SetCurrItem(m_Items.begin()->second.GetName()); }
 		m_CurrItem->second.Color = CCN_BG_8 | CCN_FG_12;
 		OnDraw();
+=======
+	CWidget::CWidget() : m_unId(0), m_strName("cwidget") {
+		m_unId = s_IdStack.GetFreeId();
+		m_strName = m_strName + "_" + std::to_string(m_unId);
+		CmdEngine::Get().AddWidget(this);
+	}
+	CWidget::CWidget(const char* strName) : m_unId(0), m_strName(strName) {
+		m_unId = s_IdStack.GetFreeId();
+		m_strName = m_strName + "_" + std::to_string(m_unId);
+		CmdEngine::Get().AddWidget(this);
+	}
+	CWidget::~CWidget(){
+		s_IdStack.SetFreeId(m_unId);
+		CmdEngine::Get().RmvWidget(m_unId);
+>>>>>>> fabc2e7528a22bff88ee5d7574524ce2147413b1
 	}
 }
