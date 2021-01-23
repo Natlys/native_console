@@ -1,12 +1,11 @@
 #include "cmd_pch.hpp"
 #include "cmd_engine.h"
 
-#define CMD_INPUT_FLAGS ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT /* | ENABLE_WINDOW_INPUT*/
+#define CMD_INPUT_FLAGS ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT
 
 namespace CMD
 {
     CmdEngine::CmdEngine() :
-        m_Memory(MemArena(nullptr, 0)), m_thrRun(Thread()), m_bIsRunning(false),
         m_cwInfo(CWindowInfo()),
         m_cpxInfo(CPixelInfo()),
         m_cfbInfo(CFrameBufInfo()),
@@ -55,6 +54,7 @@ namespace CMD
 
         {   // pixels
             if (!SetCurrentConsoleFontEx(m_pCout, TRUE, &m_cpxInfo)) { Quit(); return false; }
+            //GetCurrentConsoleFontEx(m_pCout, FALSE, &m_cpxInfo);
         }
         {   // framebuffer
             m_cpxBuf.resize(static_cast<Size>(m_cfbInfo.dwSize.X) * static_cast<Size>(m_cfbInfo.dwSize.Y));
@@ -90,7 +90,7 @@ namespace CMD
     }
 
     // --<core_methods>--
-    bool CmdEngine::Init(Size szMemory)
+    bool CmdEngine::Init()
     {
         if (m_pCoutOrig == INVALID_HANDLE_VALUE || m_pCinOrig == INVALID_HANDLE_VALUE) { return false; }
 
@@ -108,7 +108,10 @@ namespace CMD
     }
     void CmdEngine::Run() {
         m_bIsRunning = true;
-        m_thrRun = std::thread([this]()->void { while (m_bIsRunning) { Update(); } });
+
+        m_thrRun = std::thread([this]()->void {
+            while (m_bIsRunning) { Update(); }
+            });
     }
 
     inline void CmdEngine::Update()
@@ -117,13 +120,9 @@ namespace CMD
         std::chrono::duration<float> durElapsed = m_tpCurrTime - m_tpLastTime;
         m_tpLastTime = m_tpCurrTime;
         m_nDeltaTime = durElapsed.count();
-        
-        Char strTitle[256];
-        sprintf_s(strTitle, "%s::updates/sec = %3.2f", &m_cwInfo.strTitle[0], 1.0f / m_nDeltaTime);
-        SetConsoleTitleA(&strTitle[0]);
-
         OnEvent();
-        if (GetKeyPressed(CMD::KC_ESCAPE)) { Quit(); }
+        
+        if (GetKeyReleased(KC_ESCAPE)) { Quit(); }
     }
     // --</core_methods>--
 
@@ -152,7 +151,7 @@ namespace CMD
                         break;
                     case 0:
                         for (UInt8 mi = 0; mi < MSB_COUNT; mi++) {
-                            m_cevInfo.MouseInfo.Buttons[mi].bState.bNext = ((1 << mi) & rmsevt.dwButtonState) > 0;
+                            m_cevInfo.MouseInfo.bsButtons[mi].bNext = ((1 << mi) & rmsevt.dwButtonState) > 0;
                         }
                         break;
                     }
@@ -165,23 +164,25 @@ namespace CMD
                     m_cwInfo.bIsFocused = rfevt.bSetFocus;
                     break;
                 case EC_WINDOW_SIZE:
+                    m_cwInfo.xywhRect = {0, 0, rwszevt.dwSize.X, rwszevt.dwSize.Y };
+                    ResetWindow();
                     break;
                 }
             }
         }
         for (UInt8 mi = 0; mi < MSB_COUNT; mi++) {
-            auto& rBtn = m_cevInfo.MouseInfo.Buttons[mi];
-            rBtn.bState.bPressed = rBtn.bState.bReleased = false;
-            if (rBtn.bState.bNext != rBtn.bState.bLast) {
-                if (rBtn.bState.bNext == true) {
-                    rBtn.xyHeld = m_cevInfo.MouseInfo.xyMove;
-                    rBtn.bState.bPressed = rBtn.bState.bHeld = true;
+            ButtonState& rbs = m_cevInfo.MouseInfo.bsButtons[mi];
+            rbs.bPressed = rbs.bReleased = false;
+            if (rbs.bNext != rbs.bLast) {
+                if (rbs.bNext == true) {
+                    m_cevInfo.MouseInfo.xyHeld = m_cevInfo.MouseInfo.xyMove;
+                    rbs.bPressed = rbs.bHeld = true;
                 }
                 else {
-                    rBtn.bState.bReleased = true; rBtn.bState.bHeld = false;
+                    rbs.bReleased = true; rbs.bHeld = false;
                 }
             }
-            rBtn.bState.bLast = rBtn.bState.bNext;
+            rbs.bLast = rbs.bNext;
         }
         for (UInt16 ki = 0; ki < KC_COUNT; ki++) {
             ButtonState& rbs = m_cevInfo.KeyboardInfo.bsButtons[ki];

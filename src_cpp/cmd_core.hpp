@@ -95,7 +95,8 @@ namespace CMD
 		KC_LEFT = 37, KC_UP = 38, KC_RIGHT = 39, KC_DOWN = 40, KC_INSERT = 45, KC_DEL = 46,
 		KC_HOME = 36,
 		KC_SPACE = 32, KC_EXCLAIM = 33, KC_HASH = 35,
-		KC_K0 = 48, KC_K1 = 49, KC_K2, KC_K3, KC_K4, KC_K5, KC_K6, KC_K7, KC_K8, KC_K9 = 57,
+		KC_K0 = 48, KC_K1 = 49, KC_K2, 
+		KC_K3, KC_K4, KC_K5, KC_K6, KC_K7, KC_K8, KC_K9 = 57,
 		KC_COLON = 58, KC_SEMICOLON = 59, KC_LESSER = 60, KC_EQUAL = 61, KC_GREATER = 62,
 		KC_A = 65, KC_B, KC_C, KC_D, KC_E, KC_F, KC_G, KC_H, KC_I, KC_J, KC_K, KC_L, KC_M, KC_N, KC_O, KC_P = 80,
 		KC_Q = 81, KC_R, KC_S, KC_T, KC_U, KC_V, KC_W, KC_X, KC_Y, KC_Z = 90,
@@ -120,4 +121,13 @@ namespace CMD
 	};
 }
 
-#endif	// CMD_CORE_HPP
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:src_cpp/cmd_core.hpp
+=======
+#define XY_TO_X(x, y, w) (y * w + x)
+
+>>>>>>> fabc2e7528a22bff88ee5d7574524ce2147413b1:nc_engine/src_cpp/nc_core.hpp
+>>>>>>> 8ee9b5075799cb08c8548082c87b58a6ffc3c303
+
+#endi // CMD_CORE_HPP

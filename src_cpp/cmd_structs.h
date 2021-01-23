@@ -5,18 +5,6 @@
 
 namespace CMD
 {
-	class IdStack : protected std::stack<UInt32>
-	{
-	public:
-		IdStack() : std::stack<UInt32>() { push(1); }
-		// -- getters
-		inline UInt32 GetFreeId() { UInt32 unFreeId = top(); if (size() == 1) { top()++; } else { pop(); } return unFreeId; }
-		// -- setters
-		inline void SetFreeId(UInt32 unFreeId) { if (unFreeId != top()) { push(unFreeId); } }
-	};
-}
-namespace CMD
-{
 	struct CMD_API CWindowInfo
 	{
 	public:
@@ -35,37 +23,14 @@ namespace CMD
 		}
 		inline V2xy GetSize() const { return { GetWidth(), GetHeight() }; }
 	};
-	struct CMD_API ButtonState {
-		bool bNext = false, bLast = false;
-		bool bPressed = false, bReleased = false, bHeld = false;
-	};
 	struct CMD_API CEventsInfo
 	{
 		UInt64 unEvGetCount = 0;
 		UInt64 unEvReadCount = 0;
 		INPUT_RECORD irEvents[64];
 
-		struct {
-			union {
-				V2xy xyMove = { 0, 0 };
-				struct { UInt16 xMove, yMove; };
-			};
-			struct {
-				ButtonState bState{ 0 };
-				union {
-					V2xy xyHeld = { 0, 0 };
-					struct { UInt16 xHeld, yHeld; };
-				};
-			struct { double xDelta = 0.0, yDelta = 0.0; } Scroll;
-			} Buttons[MSB_COUNT];
-		} MouseInfo;
-		struct {
-			union {
-				WChar unicode;
-				Char ascii;
-			} cTypedChars[KC_COUNT]{ 0 };
-			ButtonState bsButtons[KC_COUNT]{ 0 };
-		} KeyboardInfo;
+		MouseState msInfo;
+		KeyboardState kbInfo;
 	};
 }
 
