@@ -8,7 +8,7 @@ namespace CMD
 	struct CMD_API CWindowInfo
 	{
 	public:
-		String strTitle = "cwindow";
+		String strTitle = String("\0", 256);
 		V4xywh xywhRect = { 0, 0, 1, 1 };
 		V2wh whMaxSize = { 1, 1 };
 		bool bIsFocused = false;
@@ -29,8 +29,8 @@ namespace CMD
 		UInt64 unEvReadCount = 0;
 		INPUT_RECORD irEvents[64];
 
-		MouseState msInfo;
-		KeyboardState kbInfo;
+		MouseState<CMD_MS_BTN_COUNT> msInfo;
+		KeyboardState<CMD_KEY_COUNT> kbInfo;
 	};
 }
 

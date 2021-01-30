@@ -25,5 +25,6 @@
 // --</platform>--
 
 #include <native_world_library.hpp>
+using namespace NWL;
 
 #endif // CMD_PCH_H

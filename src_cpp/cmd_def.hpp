@@ -9,6 +9,7 @@ namespace CMD
 	using CSelectionInfo = CONSOLE_SELECTION_INFO;
 	using CFrameBufInfo = CONSOLE_SCREEN_BUFFER_INFOEX;
 	using CPixelInfo = CONSOLE_FONT_INFOEX;
+	using CCursorInfo = CONSOLE_CURSOR_INFO;
 	using CPixel = CHAR_INFO;
 	using V2xy = COORD;
 	using V2wh = COORD;
@@ -19,16 +20,17 @@ namespace CMD
 
 // ========<key_codes_cmd>========
 #define CMD_KEY_NONE					0
+#define CMD_KEY_FIRST					32
 // printable_keys
 #define CMD_KEY_SPACE_32				32
 #define CMD_KEY_APOSTROPHE_39			39
 #define CMD_KEY_COMMA_44				44
 #define CMD_KEY_MINUS_45				45
 #define CMD_KEY_PERIOD_46				46
-#define CMD_KEY_APOSTROPHE_39		39
+#define CMD_KEY_APOSTROPHE_39			39
 #define CMD_KEY_COMMA_44				44
 #define CMD_KEY_MINUS_45				45
-#define CMD_KEY_PERIOD_46			46
+#define CMD_KEY_PERIOD_46				46
 #define CMD_KEY_SLASH_47				47
 #define CMD_KEY_0_48					48
 #define CMD_KEY_1_49					49
@@ -154,6 +156,7 @@ namespace CMD
 #define CMD_KEY_ALT_RIGHT			18
 
 #define CMD_KEY_LAST				256
+#define CMD_KEY_COUNT				CMD_KEY_LAST
 // ========</key_codes_cmd>========
 
 // ========<device_codes_cmd>========

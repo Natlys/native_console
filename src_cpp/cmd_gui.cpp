@@ -19,11 +19,11 @@ namespace CMD
 	// --==<core_methods>==--
 	void CWidget::OnDraw()
 	{
-		CmdEngine::Get().DrawStrXY(m_xyCrd.X, m_xyCrd.Y, m_Color, &m_strName[0]);
+		CmdEngine::Get().GetFrameBuf()->DrawStrXY(m_xyCrd.X, m_xyCrd.Y, m_Color, &m_strName[0]);
 	}
 	void CWidget::OnRedraw()
 	{
-		CmdEngine::Get().DrawStrXY(m_xyCrd.X, m_xyCrd.Y, CCN_BG_1 | CCN_FG_1, &m_strName[0]);
+		CmdEngine::Get().GetFrameBuf()->DrawStrXY(m_xyCrd.X, m_xyCrd.Y, CCN_BG_1 | CCN_FG_1, &m_strName[0]);
 	}
 	void CWidget::OnHovered(UInt16 xCrd, UInt16 yCrd)
 	{
@@ -82,7 +82,7 @@ namespace CMD
 			yCrdRel1 += m_pOverMenu->yCrd;
 		}
 		//CmdEngine::Get().DrawRectXY(xCrdRel0, yCrdRel0, xCrdRel1, yCrdRel1, Color);
-		CmdEngine::Get().DrawStrXY(xCrdRel0, yCrdRel0, Color, &m_strName[0]);
+		CmdEngine::Get().GetFrameBuf()->DrawStrXY(xCrdRel0, yCrdRel0, Color, &m_strName[0]);
 		if (m_Items.empty()) { return; }
 		for (MenuItems::iterator itItem = m_Items.begin(); itItem != m_Items.end(); itItem++) { itItem->second.OnDraw(); }
 	}
