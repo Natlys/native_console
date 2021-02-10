@@ -1,9 +1,9 @@
-#include "cmd_pch.hpp"
-#include "cmd_engine.h"
+#include "nwc_pch.hpp"
+#include "nwc_engine.h"
 
-#define CMD_INPUT_FLAGS ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT
+#define NWC_INPUT_FLAGS ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT
 
-namespace CMD
+namespace NWC
 {
     CmdEngine::CmdEngine() :
         m_wInfo(CWindowInfo()),
@@ -37,7 +37,7 @@ namespace CMD
 
     void CmdEngine::SetWndInfo(const CWindowInfo& rcwInfo) { m_wInfo = rcwInfo; SetConsoleWindowInfo(m_fmBuf.GetNative(), TRUE, &m_wInfo.xywhRect); }
     void CmdEngine::SetPxInfo(const CPixelInfo& rcpxInfo) { m_pxInfo = rcpxInfo; SetCurrentConsoleFontEx(m_fmBuf.GetNative(), TRUE, &m_pxInfo); }
-    void CmdEngine::SetCursorInfo(const CCursorInfo& rcurInfo) { m_curInfo = rcurInfo; SetConsoleCursorInfo(m_fmBuf.GetNative(), &m_curInfo); }
+    void CmdEngine::SetCrsInfo(const CCursorInfoT& rcrsInfo) { m_crsInfo = rcrsInfo; SetConsoleCursorInfo(m_fmBuf.GetNative(), &m_crsInfo); }
     
     // --<core_methods>--
     void CmdEngine::Run() {
@@ -50,12 +50,11 @@ namespace CMD
     }
     bool CmdEngine::Init()
     {
-        if (m_bIsRunning || m_Memory.GetDataBeg() != nullptr) { return false; }
+        if (m_bIsRunning) { return false; }
         m_bIsRunning = true;
-        m_Memory = MemArena(new Byte[1 << 20], 1 << 20);
 
         SetTitle(&m_wInfo.strTitle[0]);
-        if (!SetConsoleMode(m_pCin, CMD_INPUT_FLAGS)) { Quit(); return false; }
+        if (!SetConsoleMode(m_pCin, NWC_INPUT_FLAGS)) { Quit(); return false; }
 
         {
             V4xywh xywhMinRect = { 0, 0, 1, 1 };
@@ -77,13 +76,11 @@ namespace CMD
     }
     void CmdEngine::Quit()
     {
-        if (m_bIsRunning || m_Memory.GetDataBeg() == nullptr) { return; }
+        if (m_bIsRunning) { return; }
         m_bIsRunning = false;
         
-        for (auto& itState : m_States) { itState->OnQuit(); }
+        for (auto& itState : m_States) { itState->Quit(); }
 
-        delete[] m_Memory.GetDataBeg();
-        m_Memory = MemArena(nullptr, 0);
         SetConsoleActiveScreenBuffer(m_pCout);
     }
 
@@ -92,37 +89,35 @@ namespace CMD
         TimeSys::Update();
         Char strTime[16]{ 0 };
         sprintf(strTime, "ups: %3.2f", 1.0f / TimeSys::GetDeltaS());
-        DrawBytesXY(GetWndWidth() - 16, 2, GetWndWidth(), 3, CMD::CCD_FG_GREEN, &strTime[0], 16);
+        DrawBytesXY(GetWndWidth() - 16, 2, GetWndWidth(), 3, NWC::CCD_FG_GREEN, &strTime[0], 16);
 
         SwapBuffers();
         m_fmBuf.Clear();
         PollEvents();
-        UpdateCursor();
-        UpdateKeyboard();
         
         for (auto& itState : m_States) { itState->Update(); }
     }
 
     void CmdEngine::OnEvent(AEvent& rEvt)
     {
-        if (rEvt.IsInCategory(EC_MOUSE)) {
-            MouseEvent* pmEvt = static_cast<MouseEvent*>(&rEvt);
+        if (rEvt.IsInCategory(EC_CURSOR)) {
+            CursorEvent* pmEvt = static_cast<CursorEvent*>(&rEvt);
             switch (pmEvt->evType) {
-            case ET_MOUSE_MOVE:
-                m_evInfo.msInfo.xMoveDelta = pmEvt->nX - m_evInfo.msInfo.xMove;
-                m_evInfo.msInfo.yMoveDelta = pmEvt->nY - m_evInfo.msInfo.yMove;
-                m_evInfo.msInfo.xMove = pmEvt->nX;
-                m_evInfo.msInfo.yMove = pmEvt->nY;
+            case ET_CURSOR_MOVE:
+                m_crs.xMoveDelta = pmEvt->nX - m_crs.xMove;
+                m_crs.yMoveDelta = pmEvt->nY - m_crs.yMove;
+                m_crs.xMove = pmEvt->nX;
+                m_crs.yMove = pmEvt->nY;
                 break;
-            case ET_MOUSE_SCROLL:
-                m_evInfo.msInfo.xScroll = pmEvt->nX;
-                m_evInfo.msInfo.yScroll = pmEvt->nY;
+            case ET_CURSOR_SCROLL:
+                m_crs.xScrollDelta = pmEvt->nX;
+                m_crs.yScrollDelta = pmEvt->nY;
                 break;
-            case ET_MOUSE_RELEASE:
-                m_evInfo.msInfo.bsButtons[pmEvt->nButton].bNew = false;
+            case ET_CURSOR_PRESS:
+                m_crs.Buttons[pmEvt->cButton].bState = BS_PRESSED;
                 break;
-            case ET_MOUSE_PRESS:
-                m_evInfo.msInfo.bsButtons[pmEvt->nButton].bNew = true;
+            case ET_CURSOR_RELEASE:
+                m_crs.Buttons[pmEvt->cButton].bState = BS_RELEASED;
                 break;
             }
             if (rEvt.bIsHandled) return;
@@ -131,9 +126,17 @@ namespace CMD
         else if (rEvt.IsInCategory(EC_KEYBOARD)) {
             KeyboardEvent* pkEvt = static_cast<KeyboardEvent*>(&rEvt);
             switch (pkEvt->evType) {
-            case ET_KEY_RELEASE:
-                m_evInfo.kbInfo.bsKeys[pkEvt->unKeyCode].bNew = false;
-                switch (pkEvt->unKeyCode) {
+            case ET_KEYBOARD_PRESS:
+                m_kbd.Keys[pkEvt->keyCode].bState = BS_PRESSED;
+                switch (pkEvt->keyCode) {
+                case KC_ESCAPE:
+                    break;
+                default: break;
+                }
+                break;
+            case ET_KEYBOARD_RELEASE:
+                m_kbd.Keys[pkEvt->keyCode].bState = BS_RELEASED;
+                switch (pkEvt->keyCode) {
                 case KC_ESCAPE:
                     StopRunning();
                     rEvt.bIsHandled = true;
@@ -141,15 +144,7 @@ namespace CMD
                 default: break;
                 }
                 break;
-            case ET_KEY_PRESS:
-                m_evInfo.kbInfo.bsKeys[pkEvt->unKeyCode].bNew = true;
-                switch (pkEvt->unKeyCode) {
-                case KC_ESCAPE:
-                    break;
-                default: break;
-                }
-                break;
-            case ET_KEY_CHAR:
+            case ET_KEYBOARD_CHAR:
                 break;
             }
             if (rEvt.bIsHandled) { return; }
@@ -186,89 +181,53 @@ namespace CMD
             ReadConsoleInputA(m_pCin, m_evInfo.irEvents, m_evInfo.unEvGetCount, &m_evInfo.unEvReadCount);
             for (UInt16 evi = 0; evi < m_evInfo.unEvGetCount; evi++) {
                 UInt32 evTypeId = m_evInfo.irEvents[evi].EventType;
-                if (evTypeId == CMD_MS_EVT) {
+                if (evTypeId == MOUSE_EVENT) {
                     MOUSE_EVENT_RECORD& rEvt = m_evInfo.irEvents[evi].Event.MouseEvent;
-                    if (rEvt.dwEventFlags == CMD_MS_MOVED) {
-                        MouseEvent msEvt(ET_MOUSE_MOVE, rEvt.dwMousePosition.X, rEvt.dwMousePosition.Y);
-                        OnEvent(msEvt);
+                    if (rEvt.dwEventFlags == MOUSE_MOVED) {
+                        CursorEvent crsEvt(ET_CURSOR_MOVE, rEvt.dwMousePosition.X, rEvt.dwMousePosition.Y);
+                        OnEvent(crsEvt);
                     }
                     else {
-                        for (UInt8 mi = 0; mi < CMD_MS_BTN_COUNT; mi++) {
-                            auto& rmb = m_evInfo.msInfo.bsButtons[mi];
-                            rmb.bNew = ((1 << mi) & rEvt.dwButtonState) > 0;
-                            if (rmb.bNew != rmb.bOld) {
-                                MouseEvent msEvt(rmb.bNew ? ET_MOUSE_PRESS : ET_MOUSE_RELEASE, mi);
-                                OnEvent(msEvt);
+                        for (UInt8 mi = 0; mi < CRS_COUNT; mi++) {
+                            auto& rmb = m_crs.Buttons[mi];
+                            ButtonStates bsOld = rmb.bState;
+                            rmb.bState = (((1 << mi) & rEvt.dwButtonState) > 0) ? BS_PRESSED : BS_RELEASED;
+                            if (rmb.bState != bsOld) {
+                                CursorEvent crsEvt(rmb.bState == BS_PRESSED ? ET_CURSOR_PRESS : ET_CURSOR_RELEASE, static_cast<CursorCodes>(mi));
+                                OnEvent(crsEvt);
                             }
                         }
                     }
                 }
-                else if (evTypeId == CMD_KEY_EVT) {
+                else if (evTypeId == KEY_EVENT) {
                     KEY_EVENT_RECORD& rEvt = m_evInfo.irEvents[evi].Event.KeyEvent;
-                    if (rEvt.bKeyDown){
+                    if (rEvt.bKeyDown) {
                         if (rEvt.wRepeatCount == 1) {
-                            KeyboardEvent kbEvt(ET_KEY_PRESS, rEvt.wVirtualKeyCode);
-                            kbEvt.cChar = rEvt.uChar.AsciiChar;
-                            OnEvent(kbEvt);
-                        }
-                        else {
+                            KeyboardEvent kbdEvt(ET_KEYBOARD_PRESS, static_cast<KeyCodes>(rEvt.wVirtualKeyCode));
+                            OnEvent(kbdEvt);
                         }
                     }
                     else {
-                        KeyboardEvent kbEvt(ET_KEY_RELEASE, rEvt.wVirtualKeyCode);
-                        kbEvt.cChar = rEvt.uChar.AsciiChar;
-                        OnEvent(kbEvt);
+                        KeyboardEvent kbdEvt(ET_KEYBOARD_RELEASE, static_cast<KeyCodes>(rEvt.wVirtualKeyCode));
+                        OnEvent(kbdEvt);
                         if (rEvt.uChar.AsciiChar >= ' ' && rEvt.uChar.AsciiChar <= 'z') {
-                            KeyboardEvent kbEvt(static_cast<Char>(rEvt.uChar.AsciiChar));
+                            KeyboardEvent kbEvt(ET_KEYBOARD_CHAR, static_cast<KeyCodes>(rEvt.uChar.AsciiChar));
                             OnEvent(kbEvt);
                         }
                     }
                 }
-                else if (evTypeId == CMD_FOCUS_EVT) {
-                    WindowEvent wEvt(ET_WINDOW_FOCUS, m_evInfo.irEvents[evi].Event.FocusEvent.bSetFocus);
+                else if (evTypeId == FOCUS_EVENT) {
+                    WindowEvent wEvt(m_evInfo.irEvents[evi].Event.FocusEvent.bSetFocus ? ET_WINDOW_FOCUS : ET_WINDOW_DEFOCUS);
                     OnEvent(wEvt);
                 }
-                else if (evTypeId == CMD_WND_SIZE_EVT) {
+                else if (evTypeId == WINDOW_BUFFER_SIZE_EVENT) {
                     WindowEvent wEvt(ET_WINDOW_RESIZE, m_evInfo.irEvents[evi].Event.WindowBufferSizeEvent.dwSize.X, m_evInfo.irEvents[evi].Event.WindowBufferSizeEvent.dwSize.Y);
                     OnEvent(wEvt);
                 }
-                else if (evTypeId == CMD_MENU_EVT) {
+                else if (evTypeId == MENU_EVENT) {
                     MENU_EVENT_RECORD& rEvt = m_evInfo.irEvents[evi].Event.MenuEvent;
                 }
             }
-        }
-    }
-    inline void CmdEngine::UpdateCursor() {
-        for (UInt8 mi = 0; mi < MSB_COUNT; mi++) {
-            ButtonState& rbs = m_evInfo.msInfo.bsButtons[mi];
-            rbs.bPressed = rbs.bReleased = false;
-            if (rbs.bNew != rbs.bOld) {
-                if (rbs.bNew == true) {
-                    m_evInfo.msInfo.xHeld[mi] = m_evInfo.msInfo.xMove;
-                    m_evInfo.msInfo.yHeld[mi] = m_evInfo.msInfo.yMove;
-                    rbs.bPressed = rbs.bHeld = true;
-                }
-                else {
-                    rbs.bReleased = true; rbs.bHeld = false;
-                }
-            }
-            rbs.bOld = rbs.bNew;
-        }
-    }
-    inline void CmdEngine::UpdateKeyboard() {
-        for (UInt16 ki = 0; ki < KC_COUNT; ki++) {
-            ButtonState& rbs = m_evInfo.kbInfo.bsKeys[ki];
-            rbs.bPressed = rbs.bReleased = false;
-            if (rbs.bNew != rbs.bOld) {
-                if (rbs.bNew == true) {
-                    rbs.bPressed = rbs.bHeld = true;
-
-                }
-                else {
-                    rbs.bReleased = true; rbs.bHeld = false;
-                }
-            }
-            rbs.bOld = rbs.bNew;
         }
     }
     // --==</implementation_methods>==--
